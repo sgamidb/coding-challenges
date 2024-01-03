@@ -1,14 +1,15 @@
+#!/usr/bin/env node
 import {parseArgs, ParseArgsConfig} from "node:util";
-import {ccwc, CcwcOptions, CcwcResult} from "./lib";
+import {ccwc, CcwcOptions, CcwcResult} from "./ccwc";
 
 
-async function run() {
-  const options = getArgs();
+async function main() {
+  const options = await getArgs();
   const result = await ccwc(options);
   printResult(result)
 }
 
-function getArgs(): CcwcOptions {
+async function getArgs(): Promise<CcwcOptions> {
   const config: ParseArgsConfig = {
     options: {
       characters: {
@@ -38,6 +39,7 @@ function getArgs(): CcwcOptions {
     },
     allowPositionals: true,
   };
+
   const {values, positionals} = parseArgs(config);
 
   return {
@@ -63,9 +65,11 @@ function printResult(result: CcwcResult[]) {
     } else if (row.bytes) {
       lineToPrint += row.bytes.toString().padStart(8, ' ');
     }
-    lineToPrint += " " + row.fileName;
+    if (row.fileName) {
+      lineToPrint += " " + row.fileName;
+    }
     console.log(lineToPrint);
   })
 }
 
-run().catch(console.error);
+main().catch(console.error);
