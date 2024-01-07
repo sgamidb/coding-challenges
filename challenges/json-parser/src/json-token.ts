@@ -1,0 +1,13 @@
+export enum JsonToken {
+  OPEN_BRACE,
+  CLOSE_BRACE,
+  OPEN_BRACKET,
+  CLOSE_BRACKET,
+  STRING,
+  NUMBER,
+  BOOLEAN,
+  NULL,
+  COLON,
+  WHITESPACE,
+  COMMA,
+}
